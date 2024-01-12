@@ -1,23 +1,86 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import {
+  Navigate,
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+import Login from "./Login";
+import Catalogue from "./Catalogue";
+import Navbar from "./Navbar";
+import NotFound from "./NotFound";
+import { useEffect, useState } from "react";
+import Wallet from "./Wallet";
+import Orders from "./Orders";
+import OrderDetails from "./OrderDetails";
 
 function App() {
+  const [reload, setReload] = useState(false);
+  useEffect(() => {
+    if (reload === true) {
+      setReload(false);
+    }
+  }, [reload]);
+  function ProtectedRoutes(props) {
+    if (localStorage.getItem("token")) {
+      return props.children;
+    } else {
+      return <Navigate to="/login" />;
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Router>
+        {localStorage.getItem("token") && <Navbar reload={setReload} />}
+
+        {!localStorage.getItem("token") && (
+          <Routes>
+            <Route exact path="/login" element={<Login reload={setReload} />} />
+            {/* <Route path="*" element={<NotFound />} /> */}
+          </Routes>
+        )}
+        {localStorage.getItem("token") && (
+          <Routes>
+            <Route
+              exact
+              path="/catalogue"
+              element={
+                <ProtectedRoutes>
+                  <Catalogue />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              exact
+              path="/wallet"
+              element={
+                <ProtectedRoutes>
+                  <Wallet />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              exact
+              path="/orders"
+              element={
+                <ProtectedRoutes>
+                  <Orders />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              exact
+              path="/orders/:orderId"
+              element={
+                <ProtectedRoutes>
+                  <OrderDetails />
+                </ProtectedRoutes>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        )}
+      </Router>
     </div>
   );
 }
