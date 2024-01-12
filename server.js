@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 dotenv.config();
 const {
   getItems,
@@ -13,6 +14,7 @@ const { signatureAuth } = require("./middleware/signatureAuth");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 const PORT = process.env.PORT;
 
 app.get("/items", signatureAuth, getItems);
