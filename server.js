@@ -7,6 +7,7 @@ const {
   checkItemAvailable,
   getWallets,
   login,
+  placeOrder,
 } = require("./controllers");
 const { signatureAuth } = require("./middleware/signatureAuth");
 
@@ -23,7 +24,5 @@ app.get(
 );
 app.get("/wallets/balances", signatureAuth, getWallets);
 app.post("/login", signatureAuth, login);
-//checkItemAvailability/AE-Test-1-1000-1253/1
-//https://staging.giftlov.com/api/Base
-
+app.post("/placeOrder", signatureAuth, placeOrder);
 app.listen(PORT, console.log(`Server running on PORT ${PORT}...`));
