@@ -22,7 +22,7 @@ function Login({ reload }) {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://localhost:8080/login",
+        url: `${process.env.REACT_APP_BASE_URL}/login`,
         headers: {
           "Content-Type": "application/json",
         },

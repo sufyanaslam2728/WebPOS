@@ -20,7 +20,7 @@ function Catalogue() {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: "http://localhost:8080/items",
+      url: `${process.env.REACT_APP_BASE_URL}/items`,
       headers: {
         Authorization: localStorage.getItem("token"),
         "X-GIFTLOV-DATE": date,
@@ -30,7 +30,7 @@ function Catalogue() {
     const makeRequest = async () => {
       try {
         const response = await axios.request(config);
-        console.log(response.data.items);
+
         setItems(response.data.items);
 
         setLoading(false);
@@ -47,7 +47,7 @@ function Catalogue() {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `http://localhost:8080/checkItemAvailability/${details.id}/${details.toValue}`,
+        url: `${process.env.REACT_APP_BASE_URL}/checkItemAvailability/${details.id}/${details.toValue}`,
         headers: {
           Authorization: localStorage.getItem("token"),
           "X-GIFTLOV-DATE": date,
@@ -88,7 +88,7 @@ function Catalogue() {
       const config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://localhost:8080/placeOrder",
+        url: `${process.env.REACT_APP_BASE_URL}/placeOrder`,
         headers: {
           Authorization: localStorage.getItem("token"),
           "X-GIFTLOV-DATE": date,
@@ -97,9 +97,7 @@ function Catalogue() {
         data: data,
       };
 
-      console.log(config.data);
       const response = await axios.request(config);
-      console.log(response);
       if (response.status === 200) {
         setShowModal(false);
       }
@@ -157,22 +155,6 @@ function Catalogue() {
                           Description:{" "}
                           <b className="text-primary">
                             {item.giftCardInformation}
-                          </b>
-                        </Card.Text>
-                      )}
-                      {item.usageInstructions && (
-                        <Card.Text className="text-truncate fs-5">
-                          Usage:{" "}
-                          <b className="text-primary">
-                            {item.usageInstructions}
-                          </b>
-                        </Card.Text>
-                      )}
-                      {item.termsAndConditions && (
-                        <Card.Text className="text-truncate fs-5">
-                          Terms & Conditions:{" "}
-                          <b className="text-primary">
-                            {item.termsAndConditions}
                           </b>
                         </Card.Text>
                       )}

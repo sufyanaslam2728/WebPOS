@@ -92,8 +92,7 @@ const placeOrder = async (req, res) => {
   headers["signature"] = req.headers.signature;
   headers["X-GIFTLOV-DATE"] = req.headers["x-giftlov-date"];
   const apiUrl = `${process.env.BASE_URL}${req.path}`;
-  console.log(apiUrl);
-  console.log(req.body);
+
   try {
     // Make a GET request with headers using await
     const response = await axios.post(apiUrl, req.body, { headers });

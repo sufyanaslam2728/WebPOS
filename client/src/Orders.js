@@ -18,7 +18,7 @@ function Orders() {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: "https://staging.giftlov.com/api/Base/orders",
+      url: `${process.env.REACT_APP_BASE_URL}/orders`,
       headers: {
         Authorization: localStorage.getItem("token"),
         "X-GIFTLOV-DATE": date,

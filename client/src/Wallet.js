@@ -15,17 +15,16 @@ function Wallet() {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: "http://localhost:8080/wallets/balances",
+      url: `${process.env.REACT_APP_BASE_URL}/wallets/balances`,
       headers: {
         "X-GIFTLOV-DATE": date,
         Authorization: localStorage.getItem("token"),
       },
     };
-    console.log(localStorage.getItem("token"));
+
     const makeRequest = async () => {
       try {
         const response = await axios.request(config);
-        console.log(JSON.stringify(response.data));
 
         setWallets(response.data);
 
@@ -72,14 +71,14 @@ function Wallet() {
                       <Card.Title className=" fs-3 mb-3">
                         {wallet.title}
                       </Card.Title>
-                      <Card.Text className="text-primary">
-                        <h3>
+                      <h3>
+                        <Card.Text className="text-primary">
                           Balance:{" "}
                           <b>
                             {wallet.balance} {wallet.currency}
                           </b>
-                        </h3>
-                      </Card.Text>
+                        </Card.Text>
+                      </h3>
                     </Card.Body>
                   </Card>
                 </div>
