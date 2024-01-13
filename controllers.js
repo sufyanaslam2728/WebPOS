@@ -96,7 +96,6 @@ const placeOrder = async (req, res) => {
   try {
     // Make a GET request with headers using await
     const response = await axios.post(apiUrl, req.body, { headers });
-    console.log(response);
     return res.status(response.status).json(response.data);
   } catch (error) {
     console.log(error);

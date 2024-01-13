@@ -45,32 +45,6 @@ function Login({ reload }) {
         setHide(false);
       }
     }
-
-    // if (response.status === 200) {
-    //   const json = await response.json();
-    //   console.log(json);
-
-    //   if (json.authToken) {
-    //     var decoded = await jwt_decode(json.authToken);
-    //     setUser(decoded.user);
-    //     localStorage.setItem("token", json.authToken);
-    //     await reload();
-
-    //     if (decoded.user.role === "admin") {
-    //     //   setValidated(true);
-    //       navigate("/admin");
-    //     } else if (decoded.user.role === "seller") {
-    //     //   setValidated(true);
-    //       navigate("/seller/products");
-    //     } else if (decoded.user.role === "customer") {
-    //     //   setValidated(true);
-    //       navigate("/home");
-    //     }
-    //   }
-    // }
-    // if (response.status === 204) {
-    //   setHide(false);
-    // }
   };
   return (
     <Form onSubmit={handleSubmit}>

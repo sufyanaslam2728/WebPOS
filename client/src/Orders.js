@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import Spinner from "./Spinner";
+import Modal from "react-bootstrap/Modal";
 import axios from "axios";
+import Table from "react-bootstrap/Table";
 
 function Orders() {
   const [orders, setOrders] = useState("");
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const [details, setDetails] = useState("");
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     setLoading(true);
     const currentDate = new Date();
@@ -46,7 +48,7 @@ function Orders() {
           <b>Your Orders</b>
         </h1>
         <hr
-          style={{ width: "370px", border: "3px solid", color: "#1ab5e9" }}
+          style={{ width: "240px", border: "3px solid", color: "#1ab5e9" }}
           className="mx-auto shadow-lg"
         />
 
@@ -56,11 +58,22 @@ function Orders() {
               orders.map((order) => (
                 <div className="my-4 col-md-6" key={order.id}>
                   <Card
-                    style={{ width: "23rem" }}
+                    style={{ width: "24rem" }}
                     className="text-center shadow-lg mx-auto"
                   >
+                    <Card.Img
+                      width="24rem"
+                      height="300px"
+                      variant="top"
+                      src={
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4jhDRpiijnvVafh7Za-TCBZZstf2GpvyMiw&usqp=CAU"
+                      }
+                      alt={`Order Image`}
+                    />
                     <Card.Body>
-                      <Card.Title className="fs-4 mb-3">{order.id}</Card.Title>
+                      <Card.Title className="fs-3 mb-3 fw-bold">
+                        {order.id}
+                      </Card.Title>
                       <Card.Text className="fs-5">
                         Customer Name:{" "}
                         <b className="text-primary">{order.customerName}</b>
@@ -90,9 +103,10 @@ function Orders() {
                         <b className="text-primary">{order.lineItems.length}</b>
                       </Card.Text>
                       <Button
-                        variant="info shadow-lg mb-3"
+                        variant="info shadow-lg mb-3 fs-5 fw-bold"
                         onClick={() => {
-                          navigate(`/orders/${order.id}`);
+                          setDetails(order);
+                          setShowModal(true);
                         }}
                       >
                         Order Details
@@ -106,6 +120,87 @@ function Orders() {
             )}
           </div>
         </div>
+      </div>
+      <div>
+        <Modal
+          show={showModal}
+          onHide={() => {
+            setShowModal(false);
+          }}
+          aria-labelledby="contained-modal-title-vcenter"
+          size="lg"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title className="fs-3">
+              Order Id: <b>{details.id}</b>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            <div className="fs-4 my-3">
+              Customer Name:{" "}
+              <b className="text-primary">{details.customerName}</b>
+            </div>
+            <div className="fs-4 my-3">
+              Reference No:{" "}
+              <b className="text-primary">{details.referenceNo}</b>
+            </div>
+            <div className="fs-4 my-3">
+              Creation Date:{" "}
+              <b className="text-primary">{details.creationDate}</b>
+            </div>
+            <div className="fs-4 my-3">
+              Placement Date:{" "}
+              <b className="text-primary">{details.placementDate}</b>
+            </div>
+            <div className="fs-3 my-3 fw-bold">Line Items:</div>
+            <div className="overflow-auto">
+              <Table striped bordered hover variant="dark">
+                <thead>
+                  <tr>
+                    <th>Line No:</th>
+                    <th>Card-Item Id</th>
+                    <th>Status</th>
+                    <th>Status Description</th>
+                    <th>Value</th>
+                    <th>Price</th>
+                    <th>Settlement Currency</th>
+                    <th>Exchange Rate</th>
+                    <th>Settlement Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {details?.lineItems?.map((lineItem) => {
+                    return (
+                      <tr key={lineItem.lineNumber}>
+                        <td>{lineItem.lineNumber}</td>
+                        <td>{lineItem.cardItemId}</td>
+                        <td>{lineItem.status}</td>
+                        <td>{lineItem.statusDescription}</td>
+                        <td>{lineItem.value}</td>
+                        <td>{lineItem.netPrice}</td>
+                        <td>{lineItem.settlementCurrency}</td>
+                        <td>{lineItem.exchangeRate}</td>
+                        <td>{lineItem.settlementPrice}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              className="px-4"
+              variant="danger"
+              onClick={() => {
+                setShowModal(false);
+              }}
+            >
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </>
   );

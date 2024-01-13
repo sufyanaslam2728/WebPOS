@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const NotFound = () => {
+  const [homeLink, setHomeLink] = useState("/login");
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setHomeLink("/wallet");
+    }
+  }, []);
   return (
     <div className="text-center my-5 mx-5 pt-5">
       <div className="fw-bold m-5 text-danger" style={{ fontSize: "45px" }}>
@@ -13,7 +19,7 @@ const NotFound = () => {
         temporarily unavailable.
       </h4>
       <h3>
-        <Link className="button" to="/wallet">
+        <Link className="button" to={homeLink}>
           Back to Homepage
         </Link>
       </h3>

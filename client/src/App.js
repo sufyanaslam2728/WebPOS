@@ -12,7 +12,6 @@ import NotFound from "./NotFound";
 import { useEffect, useState } from "react";
 import Wallet from "./Wallet";
 import Orders from "./Orders";
-import OrderDetails from "./OrderDetails";
 
 function App() {
   const [reload, setReload] = useState(false);
@@ -36,7 +35,8 @@ function App() {
         {!localStorage.getItem("token") && (
           <Routes>
             <Route exact path="/login" element={<Login reload={setReload} />} />
-            {/* <Route path="*" element={<NotFound />} /> */}
+            <Route exact path="/" element={<Login reload={setReload} />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         )}
         {localStorage.getItem("token") && (
@@ -68,15 +68,7 @@ function App() {
                 </ProtectedRoutes>
               }
             />
-            <Route
-              exact
-              path="/orders/:orderId"
-              element={
-                <ProtectedRoutes>
-                  <OrderDetails />
-                </ProtectedRoutes>
-              }
-            />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         )}
