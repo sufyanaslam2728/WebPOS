@@ -22,7 +22,8 @@ This repository contains the backend code for a small Responsive Web-POS (Web Po
 
 ## Stack
 
-1. Node.js
+1. Node js
+2. React js
 
 ## Prerequisite
 
@@ -38,3 +39,5 @@ This repository contains the backend code for a small Responsive Web-POS (Web Po
 6. `npm dev` (to start the server and client concurrently)
 
 ## Assumptions
+
+As there is still an issue in the place order api which once fixed by the MUNERO Global then the app works smoothly as asked in the description of the task 1.
